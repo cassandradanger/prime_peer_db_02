@@ -21,11 +21,16 @@ $(document).ready(function(){
 
     getData();
     assignClicks();
+
+    $(".button").on("click", function(){
+        getData($(this).attr('value'));
+    });
 });
 
-function getData(){
+function getData(sortDir){
+    var sort = sortDir || 1;
     $.ajax({
-        url: '/assignments',
+        url: '/assignments/?q=' + sort,
         data: {},
         method: 'get',
         dataType: 'json',

@@ -4,7 +4,8 @@ var assignments = require('../models/assignment');
 
 /* GET /assignments listing. */
 router.get('/', function(req, res, next) {
-  assignments.find(function (err, assignments) {
+  sortName = req.query.q;
+  assignments.find({}, null, {sort:{name:sortName}}, function (err, assignments) {
     if (err) return next(err);
     res.json(assignments);
   });
