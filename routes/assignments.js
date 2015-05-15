@@ -11,6 +11,16 @@ router.get('/', function(req, res, next) {
   });
 });
 
+//get searched item//
+router.get('/search/:name', function(req, res, next) {
+  assignments.find({name: new RegExp(req.params.name, 'i')},function (err, assignments) {
+    if (err) return next(err);
+    res.json(assignments);
+  });
+});
+
+
+
 /* POST /assignments */
 router.post('/', function(req, res, next) {
   assignments.create(req.body, function (err, assignment) {

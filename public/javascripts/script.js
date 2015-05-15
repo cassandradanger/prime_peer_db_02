@@ -10,6 +10,7 @@ var $scoreEditor;
 var $dateEditor;
 var $editPanel;
 var $editorSubmit;
+var $searchEditor;
 
 $(document).ready(function(){
     $container = $('.js-assignments');
@@ -18,6 +19,7 @@ $(document).ready(function(){
     $scoreEditor = $('#score');
     $dateEditor = $('#date_completed');
     $editorSubmit = $('#submit');
+    $searchEditor = $('#search');
 
     getData();
     assignClicks();
@@ -25,7 +27,39 @@ $(document).ready(function(){
     $(".button").on("click", function(){
         getData($(this).attr('value'));
     });
+
+    $(".submit").on('click', function() {
+        console.log("whaaaat");
+        //var search = {
+        //    search: $searchEditor.val()
+        //};
+        //console.log(search);
+        searchData($searchEditor.val());
+    });
+
 });
+
+function searchData(search){
+    var name = search || 1;
+    $.ajax({
+        url: '/assignments/search/' + name,
+        data: {},
+        method: 'get',
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            clearData();
+            processData(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus,errorThrown);
+        },
+        complete: function(jqXHR, textStatus){
+            console.log("getData() Ajax Get Complete:", textStatus);
+        }
+    });
+}
+
+
 
 function getData(sortDir){
     var sort = sortDir || 1;
